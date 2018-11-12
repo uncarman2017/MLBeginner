@@ -75,7 +75,7 @@ def createPlot(inTree):
     fig.clf()
     axprops = dict(xticks=[], yticks=[])
     createPlot.ax1 = plt.subplot(111, frameon=False, **axprops)  # no ticks
-    # createPlot.ax1 = plt.subplot(111, frameon=False) #ticks for demo puropses
+    #createPlot.ax1 = plt.subplot(111, frameon=False) #ticks for demo puropses
     plotTree.totalW = float(getNumLeafs(inTree))
     plotTree.totalD = float(getTreeDepth(inTree))
     plotTree.xOff = -0.5 / plotTree.totalW;
@@ -113,13 +113,17 @@ print("num=" + str(num))
 depth = getTreeDepth(mytree)
 print("depth=" + str(depth))
 print('============test2=============')
+mytree = retrieveTree(0)
 createPlot(mytree)
 print('============test3=============')
 mytree['no surfacing'][3] = 'maybe'
+mytree = retrieveTree(0)
 createPlot(mytree)
 print('============test4=============')
 fr = open("E:\github\ML\MLBeginner\Ch03\lenses.txt")
 lenses = [inst.strip().split('\t') for inst in fr.readline()]
 lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
 lenseTree = trees.createTree(lenses, lensesLabels)
-createPlot(lenseTree)
+
+#TODO 代码有问题
+#createPlot(lenseTree)
