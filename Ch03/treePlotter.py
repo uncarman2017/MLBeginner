@@ -9,7 +9,7 @@ decisionNode = dict(boxstyle="sawtooth", fc="0.8")
 leafNode = dict(boxstyle="round4", fc="0.8")
 arrow_args = dict(arrowstyle="<-")
 
-
+# 获取叶节点数目
 def getNumLeafs(myTree):
     numLeafs = 0
     firstStr = list(myTree.keys())[0]
@@ -22,6 +22,7 @@ def getNumLeafs(myTree):
     return numLeafs
 
 
+# 获取树的层数
 def getTreeDepth(myTree):
     maxDepth = 0
     firstStr = list(myTree.keys())[0]
@@ -103,27 +104,7 @@ def retrieveTree(i):
 # mytree = trees.createTree(dataset, labels)
 # createPlot()
 # createPlot(mytree)
-from Ch03 import trees
 
-print('============test1=============')
-mytree = retrieveTree(0)
-print(mytree)
-num = getNumLeafs(mytree)
-print("num=" + str(num))
-depth = getTreeDepth(mytree)
-print("depth=" + str(depth))
-print('============test2=============')
-mytree = retrieveTree(0)
-createPlot(mytree)
-print('============test3=============')
-mytree['no surfacing'][3] = 'maybe'
-mytree = retrieveTree(0)
-createPlot(mytree)
-print('============test4=============')
-fr = open("E:\github\ML\MLBeginner\Ch03\lenses.txt")
-lenses = [inst.strip().split('\t') for inst in fr.readline()]
-lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
-lenseTree = trees.createTree(lenses, lensesLabels)
 
-#TODO 代码有问题
-#createPlot(lenseTree)
+
+

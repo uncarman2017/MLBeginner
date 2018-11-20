@@ -16,6 +16,7 @@ from math import log
 '''
 
 
+# 创建样本数据集
 def createDataSet():
     dataSet = [[1, 1, 'yes'],
                [1, 1, 'yes'],
@@ -55,12 +56,13 @@ def splitDataSet(dataSet, axis, value):
     return retDataSet
 
 
+# 选择最优特性值
 def chooseBestFeatureToSplit(dataSet):
-    numFeatures = len(dataSet[0]) - 1  # the last column is used for the labels, 计算字段数(除最后一列)
+    numFeatures = len(dataSet[0]) - 1  # 最后一列用于计算标签, 计算字段数(除最后一列)
     baseEntropy = calcShannonEnt(dataSet)  # 计算熵值
     bestInfoGain = 0.0;
     bestFeature = -1
-    for i in range(numFeatures):  # iterate over all the features
+    for i in range(numFeatures):  # 遍历所有的特征值
         featList = [example[i] for example in dataSet]  # create a list of all the examples of this feature
         uniqueVals = set(featList)  # get a set of unique values
         newEntropy = 0.0
@@ -75,15 +77,18 @@ def chooseBestFeatureToSplit(dataSet):
     return bestFeature  # returns an integer
 
 
+# 参数classList: 分类名称的列表
+# 按键值对分类名称列表进行统计并按数量排序后输出
 def majorityCnt(classList):
     classCount = {}
     for vote in classList:
-        if vote not in classCount.keys(): classCount[vote] = 0
+        if vote not in classCount.keys(): classCount[vote] = 0  # 根据分类名称列表中的键值进行数量统计
         classCount[vote] += 1
-    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)
+    sortedClassCount = sorted(classCount.items(), key=operator.itemgetter(1), reverse=True)  # 将统计后的分类名称列表进行排序
     return sortedClassCount[0][0]
 
 
+# 创建决策树
 def createTree(dataSet, labels):
     classList = [example[-1] for example in dataSet]
     if classList.count(classList[0]) == len(classList):
@@ -103,7 +108,7 @@ def createTree(dataSet, labels):
 
 
 def classify(inputTree, featLabels, testVec):
-    firstStr = inputTree.keys()[0]
+    firstStr = list(inputTree.keys())[0]
     secondDict = inputTree[firstStr]
     featIndex = featLabels.index(firstStr)
     key = testVec[featIndex]
@@ -115,42 +120,16 @@ def classify(inputTree, featLabels, testVec):
     return classLabel
 
 
+# 保存决策树数据到磁盘
 def storeTree(inputTree, filename):
     import pickle
-    fw = open(filename, 'w')
+    fw = open(filename, 'wb')
     pickle.dump(inputTree, fw)
     fw.close()
 
 
+# 读取磁盘上的决策树数据
 def grabTree(filename):
     import pickle
-    fr = open(filename)
-    return pickle.load(fr)
-
-
-print('============test1=============')
-dataset, labels = createDataSet()
-print(dataset)
-shannonEnt = calcShannonEnt(dataset)
-print("香农熵=" + str(shannonEnt))
-# 改变数据集，熵有变化
-dataset[0][-1] = "maybe"
-shannonEnt = calcShannonEnt(dataset)
-print("香农熵=" + str(shannonEnt))
-
-print('============test2=============')
-dataset, labels = createDataSet()
-ds = splitDataSet(dataset, 0, 1)
-print(ds)
-ds = splitDataSet(dataset, 0, 0)
-print(ds)
-
-print('============test3=============')
-dataset, labels = createDataSet()
-bestFeature = chooseBestFeatureToSplit(dataset)
-print("bestFeature=" + str(bestFeature))
-
-print('============test4=============')
-dataset, labels = createDataSet()
-mytree = createTree(dataset, labels)
-print(mytree)
+    fr = open(filename, 'rb')
+    return pickle.load(fr,encoding='utf8')
